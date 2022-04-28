@@ -1,0 +1,5 @@
+node_modules/
+android/
+.bundle/
+ios/
+problem/

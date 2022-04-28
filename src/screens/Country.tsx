@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useApolloClient } from '@apollo/client';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Alert } from 'react-native';
+import { ActivityIndicator, Alert, TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import Link from '~/components/Link';
 import Text from '~/components/Text';
@@ -20,7 +20,7 @@ export type CountryScreenParams = Pick<Country, 'code'>;
 type Props = RootStackScreenProps<'Country'>;
 
 export default function CountryScreen(props: Props) {
-  const { route } = props;
+  const { route, navigation } = props;
 
   const { code } = route.params;
 
@@ -54,13 +54,23 @@ export default function CountryScreen(props: Props) {
     }
   }
 
+  function handleContinentPress() {
+    if (!data) {
+      return;
+    }
+
+    navigation.push('Continent', {
+      code: data.continent.code,
+    });
+  }
+
   if (loading) {
     return <ActivityIndicator size="large" />;
   }
 
   if (data) {
     return (
-      <ScreenContainer alignItems="center">
+      <StyledScreenContainer>
         <Flag>{data.emoji}</Flag>
 
         <Title>{data.name}</Title>
@@ -81,23 +91,21 @@ export default function CountryScreen(props: Props) {
           <RowJustifyBetween>
             <Text>continent</Text>
 
-            <Link
-              to={{
-                screen: 'Continent',
-                params: {
-                  code: data.continent.code,
-                },
-              }}>
-              {data.continent.name}
-            </Link>
+            <TouchableOpacity onPress={handleContinentPress}>
+              <Link>{data.continent.name}</Link>
+            </TouchableOpacity>
           </RowJustifyBetween>
         </InfoWrapper>
-      </ScreenContainer>
+      </StyledScreenContainer>
     );
   }
 
   return null;
 }
+
+const StyledScreenContainer = styled(ScreenContainer)`
+  align-items: center;
+`;
 
 const InfoWrapper = styled.View`
   margin-top: 20px;

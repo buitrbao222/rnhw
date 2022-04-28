@@ -1,11 +1,11 @@
 import { gql } from '@apollo/client';
 import { Continent, Country, ID } from '~/types';
 
-export type GetContinentData = Array<
-  Pick<Continent, 'code' | 'name'> & {
+export type GetContinentData = {
+  continent: Pick<Continent, 'code' | 'name'> & {
     countries: Array<Pick<Country, 'name' | 'code'>>;
-  }
->;
+  };
+};
 
 export type GetContinentVars = {
   code: ID;

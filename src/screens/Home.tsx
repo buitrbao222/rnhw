@@ -37,7 +37,7 @@ export default function HomeScreen() {
   }
 
   return (
-    <ScreenContainer noPadding>
+    <StyledScreenContainer>
       <Header />
 
       <Body>
@@ -50,14 +50,18 @@ export default function HomeScreen() {
             <FlatList
               overScrollMode="never"
               data={data.countries}
-              renderItem={({ item }) => <ListItem {...item} />}
+              renderItem={({ item }) => <StyledCountryListItem {...item} />}
             />
           </ListWrapper>
         )}
       </Body>
-    </ScreenContainer>
+    </StyledScreenContainer>
   );
 }
+
+const StyledScreenContainer = styled(ScreenContainer)`
+  padding: 0;
+`;
 
 const Header = styled.View`
   width: 100%;
@@ -80,6 +84,6 @@ const ListWrapper = styled.View`
   margin: 0 -20px;
 `;
 
-const ListItem = styled(CountryListItem)`
+const StyledCountryListItem = styled(CountryListItem)`
   margin: 8px 20px;
 `;
